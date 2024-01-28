@@ -42,12 +42,6 @@ INSTALLED_APPS = [
     'LittleLemonAPI'
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'djoser.views.TokenCreateView',
-    ],
-}
-
 DJOSER = {
     'SERIALIZERS': {
         'token_create': 'djoser.serializers.TokenCreateSerializer',
@@ -71,7 +65,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # The settings for templates updated for the Graded assessment
-        'DIRS': ['restaurant/templates'],
+        'DIRS': ['LittleLemonAPI/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,10 +129,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 # The settings for static files have been updated for the Graded assessment
-STATIC_URL = 'restaurant/static/'
+STATIC_URL = 'LittleLemonAPI/static/'
 
 STATICFILES_DIRS = [
-    "restaurant/static",
+    "LittleLemonAPI/static",
 ]
 
 # Default primary key field type
