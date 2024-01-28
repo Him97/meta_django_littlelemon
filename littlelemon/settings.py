@@ -37,9 +37,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # The settings for app updated for the Graded assessment
-    'restaurant',
+    'rest_framework',
+    'djoser',
+    'LittleLemonAPI'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'djoser.views.TokenCreateView',
+    ],
+}
+
+DJOSER = {
+    'SERIALIZERS': {
+        'token_create': 'djoser.serializers.TokenCreateSerializer',
+    },
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,13 +65,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'littlelemon.urls'
+ROOT_URLCONF = 'LittleLemon.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # The settings for templates updated for the Graded assessment
-        'DIRS': ['restaurant/templates' ],
+        'DIRS': ['restaurant/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,7 +84,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'littlelemon.wsgi.application'
+WSGI_APPLICATION = 'LittleLemon.wsgi.application'
 
 
 # Database
