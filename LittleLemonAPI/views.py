@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.contrib.auth.models import Group, User
 from .models import Category, Booking, Menu, MenuItem, Cart, Order, OrderItem
 from .serializers import (
+    BookingSerializer,
     CategorySerializer,
     MenuItemSerializer,
     CartSerializer,
@@ -71,7 +72,10 @@ class MenuItemsView(generics.ListCreateAPIView):
         return [permission() for permission in permission_classes]
 
 
-class SingleMenuItemView(generics.RetrieveUpdateDestroyAPIView):
+class SingleMenuItemView(
+    generics.RetrieveUpdateDestroyAPIView,
+    generics.DestroyAPIView
+):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
 
@@ -111,7 +115,9 @@ class OrderView(generics.ListCreateAPIView):
             return Order.objects.all()
 
     def create(self, request, *args, **kwargs):
-        menuitem_count = Cart.objects.all().filter(user=self.request.user).count()
+        menuitem_count = Cart.objects.all().filter(
+            user=self.request.user
+        ).count()
         if menuitem_count == 0:
             return Response({"message:": "no item in cart"})
 
@@ -187,18 +193,24 @@ class DeliveryCrewViewSet(viewsets.ViewSet):
 
     def create(self, request):  # only for super admin and managers
         if self.request.user.is_superuser == False:
-            if self.request.user.groups.filter(name='Manager').exists() == False:
+            if self.request.user.groups.filter(
+                name='Manager'
+            ).exists() == False:
                 return Response(
                     {"message": "forbidden"},
                     status.HTTP_403_FORBIDDEN)
         user = get_object_or_404(User, username=request.data['username'])
         dc = Group.objects.get(name="Delivery Crew")
         dc.user_set.add(user)
-        return Response({"message": "user added to the delivery crew group"}, 200)
+        return Response(
+            {"message": "user added to the delivery crew group"},
+            200)
 
     def destroy(self, request):  # only for super admin and managers
         if self.request.user.is_superuser == False:
-            if self.request.user.groups.filter(name='Manager').exists() == False:
+            if self.request.user.groups.filter(
+                name='Manager'
+            ).exists() == False:
                 return Response({"message": "forbidden"},
                                 status.HTTP_403_FORBIDDEN)
         user = get_object_or_404(User, username=request.data['username'])
@@ -207,3 +219,9 @@ class DeliveryCrewViewSet(viewsets.ViewSet):
         return Response(
             {"message": "user removed to the delivery crew group"},
             200)
+
+
+class BookingViewSet(viewsets.ModelViewSet):
+    queryset = Booking.objects.all()
+    serializer_class = BookingSerializer
+    permission_classes = [IsAuthenticated]

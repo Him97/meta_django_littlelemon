@@ -20,8 +20,9 @@ class Booking(models.Model):
 
 
 class Menu(models.Model):
-    name = models.CharField(max_length=200)
-    price = models.IntegerField(null=False)
+    title = models.CharField(max_length=200)
+    price = models.DecimalField(decimal_places=2, max_digits=10, null=False)
+    inventory = models.IntegerField(default=0)
     menu_item_description = models.TextField(max_length=1000, default='')
 
     def __str__(self):
