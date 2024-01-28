@@ -1,50 +1,22 @@
 from django.urls import path, re_path
-from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import (
-    UserListView,
-    UserDetailView,
-    CategoryListView,
-    BookingListView,
-    MenuListView,
-    MenuItemListView,
-    MenuItemDetailView,
-    MenuItemCreateView,
-    MenuItemUpdateView,
-    MenuItemDeleteView,
-    CartListView,
-    OrderListView,
-    OrderDetailView,
-    OrderUpdateView,
-    OrderDeleteView,
-)
+from . import views
 
 urlpatterns = [
     path('', views.home, name="home"),
-    path('api/about/', views.about, name="about"),
-    path('api/book/', views.book, name="book"),
-    path('api/users/', UserListView.as_view(), name='user-list'),
-    path('api/users/<int:pk>/', UserDetailView.as_view(), name='user-detail'),
-    path('api/categories/', CategoryListView.as_view(), name='category-list'),
-    path('api/bookings/', BookingListView.as_view(), name='booking-list'),
-    path('api/menus/', MenuListView.as_view(), name='menu-list'),
-    path('api/menu-items/', MenuItemListView.as_view(), name='menu-item-list'),
-    path('api/menu-items/<int:pk>/',
-         MenuItemDetailView.as_view(), name='menu-item-detail'),
-    path('api/menu-items/create/',
-         MenuItemCreateView.as_view(), name='menu-item-create'),
-    path('api/menu-items/<int:pk>/update/',
-         MenuItemUpdateView.as_view(), name='menu-item-update'),
-    path('api/menu-items/<int:pk>/delete/',
-         MenuItemDeleteView.as_view(), name='menu-item-delete'),
-    path('api/carts/', CartListView.as_view(), name='cart-list'),
-    path('api/orders/', OrderListView.as_view(), name='order-list'),
-    path('api/orders/<int:pk>/',
-         OrderDetailView.as_view(),
-         name='order-detail'),
-    path('api/orders/<int:pk>/update/',
-         OrderUpdateView.as_view(), name='order-update'),
-    path('api/orders/<int:pk>/delete/',
-         OrderDeleteView.as_view(), name='order-delete'),
+    path('about/', views.about, name="about"),
+    path('book/', views.book, name="book"),
+    path('categories', views.CategoriesView.as_view()),
+    path('menu-items', views.MenuItemsView.as_view()),
+    path('menu-items/<int:pk>', views.SingleMenuItemView.as_view()),
+    path('cart/menu-items', views.CartView.as_view()),
+    path('orders', views.OrderView.as_view()),
+    path('orders/<int:pk>', views.SingleOrderView().as_view()),
+    path('groups/manager/users', views.GroupViewSet.as_view(
+        {'get': 'list', 'post': 'create', 'delete': 'destroy'}
+    )),
+    path('groups/delivery-crew/users', views.DeliveryCrewViewSet.as_view(
+        {'get': 'list', 'post': 'create', 'delete': 'destroy'}
+    ))
 ]
