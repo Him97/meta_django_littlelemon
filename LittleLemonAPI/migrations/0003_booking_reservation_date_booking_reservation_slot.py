@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='booking',
             name='reservation_date',
-            field=models.DateTimeField(default=0),
+            field=models.DateTimeField(auto_now_add=True),
         ),
         migrations.AddField(
             model_name='booking',

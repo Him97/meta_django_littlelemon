@@ -16,7 +16,7 @@ from .serializers import (
 
 
 def home(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {})
 
 
 def about(request):

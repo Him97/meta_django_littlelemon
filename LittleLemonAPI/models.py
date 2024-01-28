@@ -10,7 +10,7 @@ class Category(models.Model):
 class Booking(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    reservation_date = models.DateTimeField(default=0)
+    reservation_date = models.DateTimeField(auto_now_add=True)
     reservation_slot = models.SmallIntegerField(default=10)
     guest_number = models.IntegerField()
     comment = models.CharField(max_length=1000)
