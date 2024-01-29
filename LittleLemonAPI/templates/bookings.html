@@ -4,14 +4,10 @@
 {% block content %}
 <section>
   <article>
-    <h1>Make a reservation</h1>
+    <h1>All Reservations</h1>
     <div class="row">
       <div class="column">
-        <form action="" method="post">
-          {% csrf_token %}
-          {{form.as_p}}
-          <input type="submit" id="button">
-        </form>
+        <pre id="bookings"></pre>
       </div>
       <div class="column">
         <div class="videowrap">
@@ -25,9 +21,8 @@
   </article>
 </section>
 <script>
-  const reservationDateInput = document.getElementById("id_reservation_date");
-  if (reservationDateInput) {
-    reservationDateInput.type = "date";
-  }
+  const bookings = JSON.parse('{{ bookings|safe }}');
+  const pretty_json = JSON.stringify(bookings, null, 2);
+  document.getElementById('bookings').textContent = pretty_json;
 </script>
 {% endblock %}
