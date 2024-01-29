@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'djoser',
     'LittleLemonAPI'
 ]
@@ -46,6 +47,7 @@ DJOSER = {
     'SERIALIZERS': {
         'token_create': 'djoser.serializers.TokenCreateSerializer',
     },
+    "USER_ID_FIELD": "username",
 }
 
 REST_FRAMEWORK = {
